@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+
+{% block title %}Books{% endblock %}
+
+{% block content %}
+    {% for book in books %}
+       <a href="{{ book.get_absolute_url }}" ><p>{{ book.title }}</p></a>
+    {% endfor %}
+<a href="{% url 'book_create' %}">Add a new book</a>
+{% endblock %}
