@@ -23,6 +23,15 @@
                     یک درگاه به دنیای جدید است.
                 </p>
             </div>
+                   <div class="swiper books-slider">
+            <div class="swiper-wrapper">
+                <a href="#" class="swiper-slide"><img src="{% static 'image/book-1.png' %}" alt=""></a>
+                <a href="#" class="swiper-slide"><img src="{% static 'image/book-2.png' %}" alt=""></a>
+                <a href="#" class="swiper-slide"><img src="{% static 'image/book-3.png' %}" alt=""></a>
+
+            </div>
+            <img src="{% static 'image/stand.png' %}" class="stand" alt="">
+        </div>
 
 
         </div>
@@ -67,13 +76,6 @@
 
     </section>
 
-    <!-- icons section ends -->
-
-    <!-- featured section starts  -->
-
-
-
-
     <section class="arrivals" id="arrivals" dir="rtl">
 
         <h1 class="heading"><span>کتابهای جدید</span></h1>
@@ -99,9 +101,6 @@
 
     </section>
 
-    <!-- arrivals section ends -->
-
-    <!-- deal section starts  -->
 
     <section class="deal">
 
@@ -149,9 +148,13 @@
 
 
 
+<!-- loader  -->
+
+<div class=" d-flex justify-content-center">
+    <img src="{% static 'image/loader-img.gif' %}" alt="">
+</div>
 
 {% endblock %}
 {% block scripts %}
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
