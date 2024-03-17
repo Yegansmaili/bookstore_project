@@ -86,7 +86,12 @@
 
                 <a href="{{ book.get_absolute_url }}" class="swiper-slide box text-decoration-none ">
                     <div class="image">
-                        <img src="{% static 'image/book-1.png' %}" alt="">
+                        {% if book.cover %}
+                                <img src="{{ book.cover.url }}" class="img-fluid rounded-start mt-4" alt="...">
+                            {% else %}
+                                <img src="{% static 'image/cover.png' %}" class="img-fluid rounded-start mt-4" alt="...">
+
+                            {% endif %}
                     </div>
                     <div class="content ">
                         <h2 class="text-dark">{{ book.title }}</h2>
@@ -97,7 +102,9 @@
             </div>
         </div>
         {% endfor %}
-
+<dive class="d-grid gap-2 col-5 mx-auto">
+   <a href="{% url 'books_list' %}"  class="btn  btn-lg btn btn-success">نمایش همه</a>
+</dive>
 
     </section>
 
