@@ -2,10 +2,24 @@
 {% block title %}Delete {{ book.title }}{% endblock %}
 
 {% block content %}
-    <h2>Are you sure ?</h2>
-    <p>If you press Yes,"{{ book.title}}" will be deleted permanently</p>
-    <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Delete it</button>
-    </form>
+
+
+
+           <div class="container mt-1 "  dir="rtl">
+        <div class="row d-flex justify-content-center">
+            <div class="col-9 ">
+                <div class="card shadow my-3 ">
+                    <h5 class="card-header bg-danger text-light px-5 ">آیا قصد حذف کتاب "  {{ book.title }}" را دارید؟ </h5>
+                    <div class="px-5 pt-3 pb-5 ">
+                            <p>این کتاب برای همیشه پاک میشود</p>
+                        <form method="post" >
+                            {% csrf_token %}
+                            <button type="submit" class=" btn btn-danger mt-3">بله ، حذف کن</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+           </div>
 {% endblock %}

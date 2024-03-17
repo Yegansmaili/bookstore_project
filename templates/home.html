@@ -1,19 +1,157 @@
 {% extends '_base.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/homestyle.css' %}">
+
+{% endblock %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h2>Home page</h2>
-    {% if user.is_authenticated %}
-        <p>Welcome dear {{ user.username }}
-        <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-success">Log out</button>
-        </form>
-        <a href="{% url 'password_change' %}"> change password</a>
-        </p>
 
-    {% else %}
-        <p><a href="{% url 'login' %}">Login</a>| <a href="{% url 'signup' %}">Sign Up</a></p>
+    <section class="home" id="home" dir="rtl">
 
-    {% endif %}
+        <div class="row" dir="rtl">
+
+            <div class="content ">
+                <h3>کتابخانه من</h3>
+                <p>
+                    در کتاب‌خانه مجازی ما، هر صفحه یک دنیای جدید را برای شما روایت می‌کند. از کوچکترین رمان‌ها تا
+                    بزرگترین داستان‌ها، همه در اینجا جای خود را پیدا کرده‌اند. ما به عنوان همراهی وفادار برای همیشه، در
+                    پیشروی شما در جستجوی دانش و سرگرمی هستیم. از ما بخوانید و به دنیای کتاب‌ها سفر کنید، زیرا هر کتاب،
+                    یک درگاه به دنیای جدید است.
+                </p>
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <section class="icons-container ">
+
+        <div class="icons justify-content-center">
+            <i class="fas fa-shipping-fast"></i>
+            <div class="content">
+                <h3>ارسال رایگان</h3>
+                <p>سفارش بالای 100 هزار تومان</p>
+            </div>
+        </div>
+
+        <div class="icons justify-content-center">
+            <i class="fas fa-lock"></i>
+            <div class="content">
+                <h3>پرداخت امن</h3>
+                <p>100 پرداخت مطمئن</p>
+            </div>
+        </div>
+
+        <div class="icons justify-content-center">
+            <i class="fas fa-redo-alt"></i>
+            <div class="content">
+                <h3>بازگشت آسان</h3>
+                <p>10 روز مهلت بازگشت</p>
+            </div>
+        </div>
+
+        <div class="icons justify-content-center">
+            <i class="fas fa-headset"></i>
+            <div class="content">
+                <h3>پشتیبانی 7/24</h3>
+                <p>در هر زمان با ما تماس بگیرید</p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- icons section ends -->
+
+    <!-- featured section starts  -->
+
+
+
+
+    <section class="arrivals" id="arrivals" dir="rtl">
+
+        <h1 class="heading"><span>کتابهای جدید</span></h1>
+        {% for book in books %}
+                <div class="swiper arrivals-slider">
+
+            <div class="swiper-wrapper">
+
+                <a href="{{ book.get_absolute_url }}" class="swiper-slide box text-decoration-none ">
+                    <div class="image">
+                        <img src="{% static 'image/book-1.png' %}" alt="">
+                    </div>
+                    <div class="content ">
+                        <h2 class="text-dark">{{ book.title }}</h2>
+                        <h5 class="text-secondary">{{ book.price }} تومان  </h5>
+
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </section>
+
+    <!-- arrivals section ends -->
+
+    <!-- deal section starts  -->
+
+    <section class="deal">
+
+
+        <div class="image">
+            <img src="{% static 'image/deal-img.jpg' %}" alt="">
+        </div>
+
+    </section>
+
+    <!-- deal section ends -->
+
+    <!-- reviews section starts  -->
+
+    <section class="reviews" id="reviews">
+
+        <h1 class="heading"><span>نظرات مشتریان</span></h1>
+
+        <div class="swiper reviews-slider">
+
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide box">
+                    <img src="image/pic-5.png" alt="">
+                    <h3>نام مشتری</h3>
+                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
+                        چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
+
+                </div>
+
+                <div class="swiper-slide box">
+                    <img src="image/pic-6.png" alt="">
+                    <h3>نام مشتری</h3>
+                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
+                        چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
