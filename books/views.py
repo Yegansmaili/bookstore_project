@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from books.forms import BookForm
 from .forms import *
@@ -9,13 +9,28 @@ class BookListView(generic.ListView):
     template_name = 'books/books_list.html'
     context_object_name = 'books'
     paginate_by = 2
-    queryset = Book.objects.all()
+    queryset = Book.objects.all().order_by('-created_at')
 
 
-class BookDetailView(generic.DetailView):
-    model = Book
-    template_name = 'books/book_detail.html'
-    context_object_name = 'book'
+def book_detail_view(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    comments = book.comments.all()
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.book = book
+            new_comment.user = request.user
+            new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
+    return render(request, 'books/book_detail.html', {
+        'book': book,
+        'comments': comments,
+        'comment_form': comment_form
+    })
 
 
 class BookCreateView(generic.CreateView):
@@ -38,3 +53,35 @@ class BookDeleteView(generic.DeleteView):
     context_object_name = 'book'
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy('books_list')
+
+# def book_detail_view(request, pk):
+#     book = get_object_or_404(Book, pk=pk)
+#     comments = book.comments.all()
+#
+#     if request.method == 'POST':
+#         comment_form = CommentForm(request.POST)
+#         if comment_form.is_valid():
+#             new_comment = comment_form.save(commit=False)
+#             new_comment.book = book
+#             new_comment.user = request.user
+#             new_comment.save()
+#             comment_form = CommentForm()
+#
+#     else:
+#         comment_form = CommentForm()
+#     return render(request, 'books/book_detail.html', {
+#         'book': book,
+#         'comments': comments,
+#         'comment_form': comment_form})
+
+
+# class BookDetailView(generic.DetailView):
+#     model = Book
+#     # queryset = Book.objects.all()
+#     template_name = 'books/book_detail.html'
+#
+#     def get_context_data(self, **kwargs):
+#         # book = self.get_object()
+#         kwargs['comments'] = self.get_object().comments.all()
+#
+#         return super().get_context_data(**kwargs)

@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 
 class BaseModel(models.Model):
@@ -26,3 +27,15 @@ class Book(BaseModel):
 
     def get_absolute_url(self):
         return reverse('book_detail', args=[self.pk])
+
+
+class Comment(BaseModel):
+    class Meta:
+        verbose_name_plural = 'comments'
+
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    content = models.TextField()
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
+
+    def __str__(self):
+        return self.content
