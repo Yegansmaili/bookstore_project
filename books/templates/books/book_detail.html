@@ -50,10 +50,16 @@
                         <h2 class="mb-5">نظرات:</h2>
                         {% for comment in comments %}
                             <div class="border-bottom mb-3">
-                                <h5 class="mb-3">{{ comment.user.username }}</h5>
-                                <p> {{ comment.content }}
+                                <h5 class="mb-3">{{ comment.user.username }}:</h5>
+                            <div class="float-start mt-4">
+                                {% if comment.recommended %}
+                                    <p class="text-success">این کتاب را توصیه میکنم</p>
+                                {% else %}
+                                    <p class="text-danger">این کتاب را توصیه نمیکنم</p>
+                                {% endif %}</div>
+                                <p> {{ comment.content }}</p>
 
-                                </p>
+
                             </div>
                         {% endfor %}
 

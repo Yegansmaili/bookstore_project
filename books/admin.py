@@ -10,5 +10,5 @@ class BookAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = [
-        'user', 'content', 'book', 'created_at',
+        'user', 'content', 'book', 'is_active', 'recommended' ,'created_at',
     ]

@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 
+
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -36,6 +37,8 @@ class Comment(BaseModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     content = models.TextField()
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
+    recommended = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.content

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from books.forms import BookForm
 from .forms import *
@@ -14,7 +14,7 @@ class BookListView(generic.ListView):
 
 def book_detail_view(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    comments = book.comments.all()
+    comments = book.comments.filter(is_active=True).order_by('-created_at')
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -23,7 +23,8 @@ def book_detail_view(request, pk):
             new_comment.book = book
             new_comment.user = request.user
             new_comment.save()
-            comment_form = CommentForm()
+            return redirect('book_detail', pk=book.pk)
+
     else:
         comment_form = CommentForm()
     return render(request, 'books/book_detail.html', {
@@ -53,26 +54,6 @@ class BookDeleteView(generic.DeleteView):
     context_object_name = 'book'
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy('books_list')
-
-# def book_detail_view(request, pk):
-#     book = get_object_or_404(Book, pk=pk)
-#     comments = book.comments.all()
-#
-#     if request.method == 'POST':
-#         comment_form = CommentForm(request.POST)
-#         if comment_form.is_valid():
-#             new_comment = comment_form.save(commit=False)
-#             new_comment.book = book
-#             new_comment.user = request.user
-#             new_comment.save()
-#             comment_form = CommentForm()
-#
-#     else:
-#         comment_form = CommentForm()
-#     return render(request, 'books/book_detail.html', {
-#         'book': book,
-#         'comments': comments,
-#         'comment_form': comment_form})
 
 
 # class BookDetailView(generic.DetailView):
