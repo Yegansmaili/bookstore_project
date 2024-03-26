@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from books.forms import BookForm
@@ -12,6 +14,7 @@ class BookListView(generic.ListView):
     queryset = Book.objects.all().order_by('-created_at')
 
 
+@login_required
 def book_detail_view(request, pk):
     book = get_object_or_404(Book, pk=pk)
     comments = book.comments.filter(is_active=True).order_by('-created_at')
@@ -34,14 +37,14 @@ def book_detail_view(request, pk):
     })
 
 
-class BookCreateView(generic.CreateView):
+class BookCreateView(LoginRequiredMixin, generic.CreateView):
     # form_class = BookForm
     model = Book
     fields = ['title', 'author', 'description', 'price', 'cover', ]
     template_name = 'books/book_create.html'
 
 
-class BookUpdateView(generic.UpdateView):
+class BookUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Book
     fields = ['title', 'author', 'description', 'price', 'cover', ]
     template_name = 'books/book_update.html'
@@ -49,12 +52,11 @@ class BookUpdateView(generic.UpdateView):
     context_object_name = 'book'
 
 
-class BookDeleteView(generic.DeleteView):
+class BookDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Book
     context_object_name = 'book'
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy('books_list')
-
 
 # class BookDetailView(generic.DetailView):
 #     model = Book
